@@ -15,14 +15,14 @@
 ## 2. Expected End Result
 **For the User**:
 1.  Uploads a **Brand Logo** and **Product Image**.
-2.  Enters a **Groq API Key**.
+2.  Configures **Groq API Key** in `app.py`.
 3.  Clicks **Generate**.
 4.  Receives a gallery of **AI-generated ad creatives** (product placed in diverse scenes) with **AI-written captions**.
 5.  Downloads a **ZIP file** containing all assets ready for deployment.
 
 ## 3. Technical Approach
 The system follows a linear pipeline:
-1.  **Input Handling**: Streamlit UI accepts user uploads and API keys.
+1.  **Input Handling**: Streamlit UI accepts user uploads.
 2.  **Preprocessing**: 
     *   **Background Removal**: Uses `rembg` (U2Net) to isolate the product.
     *   **Composition**: Intelligently scales and positions the product on a transparent canvas to ensure optimal placement for inpainting.
@@ -30,14 +30,14 @@ The system follows a linear pipeline:
     *   Uses **Stable Diffusion v1.5** (Inpainting Pipeline) to generate context-aware backgrounds around the product based on predefined style prompts (Minimalist, Nature, Luxury, Futuristic).
     *   **Logo Overlay**: Automatically superimposes the brand logo on the generated images.
 4.  **Text Generation**: 
-    *   Uses **Groq API (Llama 3)** to generate catchy, style-specific ad captions and hashtags.
+    *   Uses **Groq API (openai/gpt-oss-120b)** to generate catchy, style-specific ad captions and hashtags.
 5.  **Output**: Packages all images and text files into a structured ZIP archive.
 
 ## 4. Tech Stack
 *   **Language**: Python 3.9
 *   **Interface**: Streamlit
 *   **Generative AI (Image)**: Stable Diffusion v1.5 (`diffusers`, `torch`)
-*   **Generative AI (Text)**: Groq API (`groq` python sdk)
+*   **Generative AI (Text)**: Groq API (`openai/gpt-oss-120b`)
 *   **Image Processing**: Pillow, RemBG, OnnxRuntime
 *   **Environment**: Virtual Environment (`venv`)
 
