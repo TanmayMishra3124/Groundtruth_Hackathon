@@ -15,7 +15,8 @@
 ## 2. Expected End Result
 **For the User**:
 1.  Uploads a **Brand Logo** and **Product Image**.
-2.  Configures **Groq API Key** in `app.py`.
+2.  Enters the **Product Name**.
+3.  Configures **Groq API Key** in `app.py`.
 3.  Clicks **Generate**.
 4.  Receives a gallery of **AI-generated ad creatives** (product placed in diverse scenes) with **AI-written captions**.
 5.  Downloads a **ZIP file** containing all assets ready for deployment.
