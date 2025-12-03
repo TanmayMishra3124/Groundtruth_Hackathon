@@ -15,7 +15,6 @@ auto_creative_engine/models/
 generated_images/
 captions/
 preprocessing/
-final_output/
 inputs/
 auto_creative_engine/inputs/Dove_logo.png
 auto_creative_engine/inputs/Dove_product.png
