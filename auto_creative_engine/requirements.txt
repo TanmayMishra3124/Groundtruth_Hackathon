@@ -1,0 +1,10 @@
+torch
+diffusers
+transformers
+accelerate
+rembg
+Pillow
+openai
+groq
+streamlit
+huggingface_hub

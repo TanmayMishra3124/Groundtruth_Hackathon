@@ -1,0 +1,30 @@
+# System
+.DS_Store
+
+# Python
+__pycache__/
+*.pyc
+venv/
+auto_creative_engine/venv/
+
+# Models
+models/
+auto_creative_engine/models/
+
+# Outputs & Intermediate
+generated_images/
+captions/
+preprocessing/
+final_output/
+inputs/
+auto_creative_engine/inputs/Dove_logo.png
+auto_creative_engine/inputs/Dove_product.png
+# Keep the inputs folder but maybe ignore content? 
+# Actually user might want sample inputs. I'll keep sample inputs if they are small.
+# The user deleted the outer inputs. The inner inputs has samples. I'll keep them.
+# So I won't ignore auto_creative_engine/inputs/ unless they are huge.
+# They are ~1.5MB. That's fine.
+
+# Logs
+logs/
+metadata/

@@ -28,22 +28,44 @@ The system follows a linear pipeline:
     *   **Background Removal**: Uses `rembg` (U2Net) to isolate the product.
     *   **Composition**: Intelligently scales and positions the product on a transparent canvas to ensure optimal placement for inpainting.
 3.  **Image Generation**: 
-    *   Uses **Stable Diffusion v1.5** (Inpainting Pipeline) to generate context-aware backgrounds around the product based on predefined style prompts (Minimalist, Nature, Luxury, Futuristic).
+    *   Uses **Stable Diffusion v1.5** (Text-to-Image + Composite) to generate context-aware backgrounds around the product based on dynamic LLM-generated prompts.
     *   **Logo Overlay**: Automatically superimposes the brand logo on the generated images.
 4.  **Text Generation**: 
     *   Uses **Groq API (openai/gpt-oss-120b)** to generate catchy, style-specific ad captions and hashtags.
-5.  **Output**: Packages all images and text files into a structured ZIP archive.
+5.  **Output**: Packages all images and text files into a structured ZIP archive. Intermediate folders (`generated_images`, `captions`, `preprocessing`) are temporary and cleaned up automatically.
 
 ## 4. Tech Stack
 *   **Language**: Python 3.9
 *   **Interface**: Streamlit
 *   **Generative AI (Image)**: Stable Diffusion v1.5 (`diffusers`, `torch`)
 *   **Generative AI (Text)**: Groq API (`openai/gpt-oss-120b`)
-*   **Image Processing**: Pillow, RemBG, OnnxRuntime
+*   **Image Processing**: Pillow, RemBG
 *   **Environment**: Virtual Environment (`venv`)
 
-## 5. Challenges & Learnings
+## 5. Running the Application
+1.  Activate the virtual environment and run the app:
+    ```bash
+    ./venv/bin/streamlit run app.py
+    ```
+    *(Or on Windows: `venv\Scripts\streamlit run app.py`)*
+
+## 6. Model Setup (Important)
+The application uses **Stable Diffusion v1.5**.
+*   **Automatic Download**: On the first run, the application will automatically download the model from Hugging Face (~4GB). Ensure you have a stable internet connection.
+*   **Manual Setup (Offline Mode)**:
+    1.  Download the `stable-diffusion-v1-5` weights from Hugging Face.
+    2.  Create a folder `models/stable-diffusion-v1-5` inside `auto_creative_engine`.
+    3.  Place the model files there. The app will detect and use the local model.
+
+## 7. Challenges & Learnings
 *   **Python Version Compatibility**: The initial environment (Python 3.14) lacked support for critical ML libraries like `pyarrow` (Streamlit dependency) and `rembg`. **Solution**: Downgraded to Python 3.9 using a custom virtual environment.
 *   **Model Loading Issues**: The downloaded Stable Diffusion weights were in `.bin` format, but the pipeline defaulted to `safetensors`, causing load failures. **Solution**: Explicitly configured the pipeline to disable `use_safetensors`.
 *   **Image Quality & Composition**: Early generations had the product zoomed in too far, leaving no room for background generation. **Solution**: Implemented a composition step to scale the product to 80% of the canvas size before inpainting.
 *   **Dependency Management**: `rembg` failed silently due to missing `onnxruntime`. **Solution**: Added robust error handling and installed the missing dependency.
+*   **Persistent Intermediate Files**: Intermediate folders (`generated_images`, `captions`) were cluttering the workspace. **Solution**: Refactored the pipeline to use temporary directories that are automatically created during runtime and deleted immediately after packaging the results.
+
+## 8. Future Improvements
+*   **SDXL Upgrade**: Move to Stable Diffusion XL for higher resolution and better prompt adherence.
+*   **ControlNet Integration**: Use ControlNet for precise depth-aware composition, ensuring even better product integration.
+*   **Custom LoRA Training**: Allow brands to train a small LoRA on their specific aesthetic for consistent on-brand generation.
+*   **Cloud Deployment**: Dockerize the application and deploy to AWS/GCP for scalability.
